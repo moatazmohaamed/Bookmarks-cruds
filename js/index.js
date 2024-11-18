@@ -25,8 +25,8 @@ if (localStorage.getItem("bookMarksInfoContainer") !== null) {
 // get data from user
 
 submitBtn.onclick = function addBookMark() {
-    if (siteName.classList.contains('is-valid') &&
-        siteUrl.classList.contains('is-valid')) {
+    if (validateInputs(siteName) &&
+        validateInputs(siteUrl)) {
         const inputData = {
             bookMark: siteName.value,
             url: siteUrl.value,
@@ -70,11 +70,7 @@ function displayData() {
     }
     rowData.innerHTML = tableRow;
 
-    if (tableRow) {
-        clearBtn.classList.remove("d-none")
-    } else {
-        clearBtn.classList.add("d-none")
-    }
+    tableRow ? clearBtn.classList.remove("d-none") : clearBtn.classList.add("d-none");
 }
 
 // Delete sites
@@ -111,8 +107,8 @@ function updateSiteData(index) {
 }
 
 function confirmEdit() {
-    if (siteName.classList.contains('is-valid') &&
-        siteUrl.classList.contains('is-valid')) {
+    if (validateInputs(siteName) &&
+        validateInputs(siteUrl)) {
         const inputData = {
             bookMark: siteName.value,
             url: siteUrl.value,
@@ -160,9 +156,11 @@ function searchUrl() {
             </tr> `
         }
     }
+
     if (tableRow === "") {
         tableRow += `<td class="lead fs-5 fw-bold pt-2">No Bookmark With Name: ${userInput}</td>`;
-    } 
+    }
+
 
     rowData.innerHTML = tableRow;
 }
@@ -172,7 +170,7 @@ function searchUrl() {
 function validateInputs(inputs) {
     const regex = {
         siteName: /^[\w-\s]{3,}$/,
-        siteUrl: /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/gi
+        siteUrl: /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/
     };
 
     if (regex[inputs.id].test(inputs.value) == true) {
@@ -194,7 +192,7 @@ function closeCard() {
 
 closeBtn.addEventListener("click", closeCard);
 
-addEventListener("click", function (e) {
+document.addEventListener("click", function (e) {
     if (e.target.classList.contains("popup_card")) {
         closeCard();
     }
@@ -226,7 +224,7 @@ const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstra
 
 // clear table 
 
-clearBtn.onclick = function clearAll() {
+clearBtn.onclick = function () {
     bookMarks.splice(0, bookMarks.length);
     localStorage.setItem("bookMarksInfoContainer", JSON.stringify(bookMarks));
     displayData();
