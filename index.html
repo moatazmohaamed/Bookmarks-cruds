@@ -21,23 +21,27 @@
         <div class="container d-flex justify-content-center align-items-center flex-column">
             <h1 class="py-4 position-relative">Bookmarker</h1>
             <div class="crud py-5 w-100">
+
                 <h2 class="fs-3 pb-3 text-center">
                     <i class="fa-solid fa-bookmark"></i>
                     Bookmark your favorite sites
                     <i class="fa-solid fa-bookmark"></i>
                 </h2>
+
                 <div class="mb-3">
-                    <label for="exampleInputEmail1" class="form-label fw-bold"><i
-                            class="fa-solid fa-book-bookmark pe-2"></i>Site Name</label>
+                    <label for="siteName" class="form-label fw-bold"><i class="fa-solid fa-book-bookmark pe-2"></i>Site
+                        Name</label>
                     <input oninput="validateInputs(this)" id="siteName" type="text" class="form-control"
                         aria-describedby="siteName" placeholder="Bookmark Name" />
                 </div>
+
                 <div class="mb-3">
-                    <label for="exampleInputEmail1" class="form-label fw-bold"><i class="fa-solid fa-link pe-2"></i>Site
+                    <label for="siteUrl" class="form-label fw-bold"><i class="fa-solid fa-link pe-2"></i>Site
                         URL</label>
                     <input oninput="validateInputs(this)" id="siteUrl" type="text" class="form-control"
-                        aria-describedby="siteName" placeholder="Site Name" />
+                        aria-describedby="siteUrl" placeholder="Site Name" />
                 </div>
+
                 <div class="text-center">
                     <div id="liveAlertPlaceholder"></div>
                     <button id="submitBtn" class="btn btn-danger btn-submit px-4">
@@ -65,7 +69,8 @@
             </table>
 
             <div class="d-flex justify-content-end w-100">
-                <button class="btn btn-light fs-5 d-none" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-title="Delete All Your Bookmarks??" id="clearBtn">
+                <button class="btn btn-light fs-5 d-none" data-bs-toggle="tooltip" data-bs-placement="left"
+                    data-bs-title="Delete All Your Bookmarks??" id="clearBtn">
                     <i class="fa fa-trash text-danger"></i>
                 </button>
             </div>
