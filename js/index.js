@@ -25,7 +25,8 @@ if (localStorage.getItem("bookMarksInfoContainer") !== null) {
 // get data from user
 
 submitBtn.onclick = function addBookMark() {
-    if (validationBookMarkName() && validationBookMarkUrl()) {
+    if (siteName.classList.contains('is-valid') &&
+        siteUrl.classList.contains('is-valid')) {
         const inputData = {
             bookMark: siteName.value,
             url: siteUrl.value,
@@ -48,7 +49,7 @@ function displayData() {
     for (let i = 0; i < bookMarks.length; i++) {
         tableRow += `
             <tr>
-                <td>${i}</td>
+                <td>${i + 1}</td>
                 <td>${bookMarks[i].bookMark}</td>
 
                 <td>
@@ -100,14 +101,18 @@ function clearForm() {
 function updateSiteData(index) {
     currentIndex = index;
     siteName.value = bookMarks[index].bookMark,
-    siteUrl.value = bookMarks[index].url;
+        siteUrl.value = bookMarks[index].url;
+
+    siteName.classList.add('is-valid')
+    siteUrl.classList.add('is-valid')
 
     submitBtn.classList.add("d-none");
     editBtn.classList.remove("d-none");
 }
 
 function confirmEdit() {
-    if (validationBookMarkName() && validationBookMarkUrl()) {
+    if (siteName.classList.contains('is-valid') &&
+        siteUrl.classList.contains('is-valid')) {
         const inputData = {
             bookMark: siteName.value,
             url: siteUrl.value,
@@ -136,7 +141,7 @@ function searchUrl() {
         if (bookMarks[i].bookMark.toLowerCase().includes(userInput.toLowerCase())) {
             tableRow += `
             <tr>
-                <td>${i}</td>
+                <td>${i + 1}</td>
                 <td>${bookMarks[i].bookMark}</td>
 
                 <td>
@@ -153,44 +158,30 @@ function searchUrl() {
                 <button onclick="updateSiteData(${i})" class="btn btn-dark"><i class="fa-solid fa-recycle"></i> Edit</button>
                 </td>
             </tr> `
-        } 
+        }
     }
     if (tableRow === "") {
-        tableRow = `<div class="lead fs-5 fw-bold pt-2">No Bookmark With Name: ${userInput}</div>`;
-    }
-    
+        tableRow += `<td class="lead fs-5 fw-bold pt-2">No Bookmark With Name: ${userInput}</td>`;
+    } 
+
     rowData.innerHTML = tableRow;
 }
 
 // Validations (regex)
 
-function validationBookMarkName() {
-    const regex = /^[\w-\s]{3,}$/;
-    const validateSiteName = siteName.value;
+function validateInputs(inputs) {
+    const regex = {
+        siteName: /^[\w-\s]{3,}$/,
+        siteUrl: /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/gi
+    };
 
-    if (regex.test(validateSiteName)) {
-        siteName.classList.add("is-valid");
-        siteName.classList.remove("is-invalid");
+    if (regex[inputs.id].test(inputs.value) == true) {
+        inputs.classList.add("is-valid");
+        inputs.classList.remove("is-invalid");
         return true;
     } else {
-        siteName.classList.remove("is-valid");
-        siteName.classList.add("is-invalid");
-        return false;
-    }
-
-}
-
-function validationBookMarkUrl() {
-    const regex = /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&\/=]*)$/;
-    const validateSiteUrl = siteUrl.value;
-
-    if (regex.test(validateSiteUrl)) {
-        siteUrl.classList.add("is-valid");
-        siteUrl.classList.remove("is-invalid");
-        return true;
-    } else {
-        siteUrl.classList.remove("is-valid");
-        siteUrl.classList.add("is-invalid");
+        inputs.classList.add("is-invalid");
+        inputs.classList.remove("is-valid");
         return false;
     }
 }
@@ -208,8 +199,6 @@ addEventListener("click", function (e) {
         closeCard();
     }
 });
-
-
 
 // alert messages
 
